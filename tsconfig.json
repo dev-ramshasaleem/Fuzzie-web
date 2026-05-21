@@ -28,7 +28,7 @@
       ]
     },
     "types": [
-      "@uploadcare/blocks/types/jsx"
+      "@uploadcare/file-uploader/types/jsx"
     ]
   },
   "include": [

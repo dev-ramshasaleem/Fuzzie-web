@@ -1,4 +1,5 @@
 'use client'
+
 import React from 'react'
 import UploadCareButton from './uploadcare-button'
 import { useRouter } from 'next/navigation'
