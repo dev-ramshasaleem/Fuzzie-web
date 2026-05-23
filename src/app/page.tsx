@@ -69,7 +69,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />
-                  100 taska per month
+                  100 tasks per month
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />
@@ -114,7 +114,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />
-                  100 taska per month
+                  100 tasks per month
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />
@@ -160,7 +160,7 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />
-                  100 taska per month
+                  100 tasks per month
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckIcon />

@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import ModalProvider from "@/provider/modal-provider";
 
 const dmSans = DM_Sans({
 
@@ -34,7 +35,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <ModalProvider>
+{children}
+            </ModalProvider>
+            
           </ThemeProvider>
         </body>
       </html>

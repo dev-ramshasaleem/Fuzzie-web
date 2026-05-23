@@ -66,7 +66,7 @@ export const products = [
         thumbnail: '/p4.png',
     },
     {
-        title: 'Renderwork Studio',
+        title: 'Render work Studio',
         link: 'https://renderwork.studio',
         thumbnail: '/p5.png',
     },
@@ -123,7 +123,7 @@ export const EditorCanvasDefaultCardTypes = {
   Notion: { description: 'Create entries directly in notion.', type: 'Action' },
   'Custom Webhook': {
     description:
-      'Connect any app that has an API key and send data to your applicaiton.',
+      'Connect any app that has an API key and send data to your application.',
     type: 'Action',
   },
   Discord: {

@@ -1,33 +1,65 @@
-import { Card, CardHeader } from '@/components/ui/card';
+import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ConnectionTypes } from '@/lib/types'
-import { Car } from 'lucide-react';
-import React from 'react'
+import Image from 'next/image';
+import Link from 'next/link';
 
 type Props = {
-    types: ConnectionTypes;
-    icon: string;
-    title: ConnectionTypes;
-    description: string;
-    callback?:() => void;
-    connected: boolean | null ;
-
+    type: ConnectionTypes
+    icon: string
+    title: ConnectionTypes
+    description: string
+    callback?: () => void
+    connected: { [key in ConnectionTypes]?: boolean }
 }
 
 const ConnectionCard = ({
-        description,
-        types,
-        icon,
-        title,
-        connected,
-}:Props) => {
-  return <Card className=" flex w-full items-center justify-between">
-    <CardHeader className="flex flex-col gap-4">
-        div
-
-
-    </CardHeader>
-  </Card>
-  
+    description,
+    type,
+    icon,
+    title,
+    connected,
+}: Props) => {
+    return (
+    <Card className="group w-full transition-shadow duration-200 hover:shadow-lg">
+      <CardHeader className="items-start gap-4">
+        <div className="flex items-start gap-4">
+          <Image
+            src={icon}
+            alt={title}
+            height={40}
+            width={40}
+            className="h-10 w-10 rounded-full bg-muted/70 p-2 object-contain"
+          />
+          <div className="space-y-1">
+            <CardTitle className="text-lg font-semibold">{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+        </div>
+        <CardAction className="flex items-center justify-end">
+          {connected[type] ? (
+            <div className="rounded-full border border-primary bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">
+              Connected
+            </div>
+          ) : (
+            <Link
+              href={
+                title === 'Discord'
+                  ? process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
+                  : title === 'Notion'
+                  ? process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
+                  : title === 'Slack'
+                  ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
+                  : '#'
+              }
+              className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
+            >
+              Connect
+            </Link>
+          )}
+        </CardAction>
+      </CardHeader>
+    </Card>
+  )
 }
 
 export default ConnectionCard
