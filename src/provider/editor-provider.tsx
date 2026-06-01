@@ -1,6 +1,6 @@
 "use client"
 import { EditorActions, EditorNodeType } from '@/lib/types';
-import React, {
+import {
     Dispatch,
     createContext,
     useContext,
@@ -27,7 +27,7 @@ export type HistoryState = {
 }
 
 export type EditorState = {
-    editor: Editor[]
+    editor: Editor
     history: HistoryState
 }
 const initialEditorState: EditorState['editor'] = {
@@ -48,7 +48,7 @@ const initialEditorState: EditorState['editor'] = {
     edges: [],
 }
 const initialHistoryState: HistoryState = {
-    history: initialEditorState,
+    history: [initialEditorState],
     currentIndex: 0,
 }
 const initialState: EditorState = {
