@@ -116,3 +116,63 @@
       rgba(4, 159, 108, 1) 0%,
       rgba(194, 254, 113, 1) 90.1%);
 }
+
+/* React Flow control styles to ensure visibility in both light and dark themes */
+.react-flow__controls {
+  color: var(--foreground);
+}
+/* In dark mode, controls should have black icons over white buttons */
+.dark .react-flow__controls {
+  color: #000000 !important;
+}
+.react-flow__controls button svg,
+.react-flow__controls button svg path,
+.react-flow__controls button svg circle,
+.react-flow__controls button svg rect {
+  stroke: currentColor !important;
+  fill: currentColor !important;
+}
+
+/* Ensure control buttons have background contrast */
+.react-flow__controls button {
+  background: rgba(255,255,255,0.9);
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+  color: inherit;
+}
+
+/* Ensure buttons remain white and icons black in dark mode */
+.dark .react-flow__controls button {
+  background: #ffffff;
+  color: #000000 !important;
+}
+
+/* Force svg icons to black in dark mode */
+.dark .react-flow__controls button svg,
+.dark .react-flow__controls button svg path,
+.dark .react-flow__controls button svg circle,
+.dark .react-flow__controls button svg rect {
+  stroke: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Override React Flow dark mode control CSS variables */
+.react-flow.dark {
+  --xy-controls-button-background-color-default: #ffffff !important;
+  --xy-controls-button-background-color-hover-default: #f4f4f4 !important;
+  --xy-controls-button-color-default: #000000 !important;
+  --xy-controls-button-color-hover-default: #000000 !important;
+  --xy-controls-button-border-color-default: #d1d5db !important;
+}
+.react-flow.dark .react-flow__controls-button {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #d1d5db !important;
+}
+.react-flow.dark .react-flow__controls-button svg,
+.react-flow.dark .react-flow__controls-button svg path,
+.react-flow.dark .react-flow__controls-button svg circle,
+.react-flow.dark .react-flow__controls-button svg rect {
+  stroke: #000000 !important;
+  fill: #000000 !important;
+}
