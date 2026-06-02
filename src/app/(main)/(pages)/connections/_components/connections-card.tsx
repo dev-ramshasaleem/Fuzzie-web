@@ -1,25 +1,31 @@
-import { Card, CardAction, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ConnectionTypes } from '@/lib/types'
-import Image from 'next/image';
-import Link from 'next/link';
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ConnectionTypes } from "@/lib/types";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
-    type: ConnectionTypes
-    icon: string
-    title: ConnectionTypes
-    description: string
-    callback?: () => void
-    connected: { [key in ConnectionTypes]?: boolean }
-}
+  type: ConnectionTypes;
+  icon: string;
+  title: ConnectionTypes;
+  description: string;
+  callback?: () => void;
+  connected: {} & any;
+};
 
 const ConnectionCard = ({
-    description,
-    type,
-    icon,
-    title,
-    connected,
+  description,
+  type,
+  icon,
+  title,
+  connected,
 }: Props) => {
-    return (
+  return (
     <Card className="group w-full transition-shadow duration-200 hover:shadow-lg">
       <CardHeader className="items-start gap-4">
         <div className="flex items-start gap-4">
@@ -43,13 +49,13 @@ const ConnectionCard = ({
           ) : (
             <Link
               href={
-                title === 'Discord'
+                title === "Discord"
                   ? process.env.NEXT_PUBLIC_DISCORD_REDIRECT!
-                  : title === 'Notion'
-                  ? process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
-                  : title === 'Slack'
-                  ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
-                  : '#'
+                  : title === "Notion"
+                    ? process.env.NEXT_PUBLIC_NOTION_AUTH_URL!
+                    : title === "Slack"
+                      ? process.env.NEXT_PUBLIC_SLACK_REDIRECT!
+                      : "#"
               }
               className="rounded-full bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90"
             >
@@ -59,7 +65,7 @@ const ConnectionCard = ({
         </CardAction>
       </CardHeader>
     </Card>
-  )
-}
+  );
+};
 
-export default ConnectionCard
+export default ConnectionCard;

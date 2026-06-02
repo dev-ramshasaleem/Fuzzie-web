@@ -22,14 +22,20 @@ import {
 import RenderConnectionAccordion from "./render-connection-accordion";
 import { useNodeConnections } from "@/provider/connections-provider";
 import RenderOutputAccordion from "./render-output-accordion";
+import { useFuzzieStore } from "@/store";
+import { useEffect } from "react";
 
 type Props = {
   nodes: EditorNodeType[];
 };
-///WIP: connect DB stuff
 const EditorCanvasSidebar = ({ nodes }: Props) => {
   const { state } = useEditor();
   const { nodeConnection } = useNodeConnections();
+  const { googleFile, setSlackChannels } = useFuzzieStore();
+  useEffect(() => {
+    if (state) {
+    }
+  }, [state]);
   return (
     <aside>
       <Tabs defaultValue="actions" className="w-[400px]">
