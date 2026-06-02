@@ -12,7 +12,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import EditorCanvasIconHelper from "./editor-canvas-icon-helper";
-import { onDragStart } from "@/lib/editor-utilis";
+import {
+  fetchBotSlackChannels,
+  onConnections,
+  onDragStart,
+} from "@/lib/editor-utilis";
 import {
   Accordion,
   AccordionContent,
@@ -34,8 +38,17 @@ const EditorCanvasSidebar = ({ nodes }: Props) => {
   const { googleFile, setSlackChannels } = useFuzzieStore();
   useEffect(() => {
     if (state) {
+      onConnections(nodeConnection, state, googleFile);
     }
   }, [state]);
+  useEffect(() => {
+    if (nodeConnection.slackNode.slackAccessToken) {
+      fetchBotSlackChannels(
+        nodeConnection.slackNode.slackAccessToken,
+        setSlackChannels,
+      );
+    }
+  }, [nodeConnection]);
   return (
     <aside>
       <Tabs defaultValue="actions" className="w-[400px]">

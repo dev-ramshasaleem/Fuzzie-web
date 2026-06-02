@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/db";
 
-export const onCreateNodeEdges = async (
+export const onCreateNodesEdges = async (
   flowId: string,
   nodes: string,
   edges: string,
@@ -18,6 +18,7 @@ export const onCreateNodeEdges = async (
       flowPath: flowPath,
     },
   });
+
   if (flow) return { message: "flow saved" };
 };
 
@@ -31,6 +32,7 @@ export const onFlowPublish = async (workflowId: string, state: boolean) => {
       publish: state,
     },
   });
+
   if (published.publish) return "Workflow published";
   return "Workflow unpublished";
 };

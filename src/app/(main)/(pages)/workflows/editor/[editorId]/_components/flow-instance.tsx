@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import React, { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import {
-  onCreateNodeEdges,
+  onCreateNodesEdges,
   onFlowPublish,
 } from "../_actions/workflow-connection";
 import { useNodeConnections } from "@/provider/connections-provider";
@@ -20,7 +20,7 @@ const FlowInstance = ({ children, edges, nodes }: Props) => {
   const [isFlow, setIsFlow] = useState([]);
   const { nodeConnection } = useNodeConnections();
   const onFlowAutomation = useCallback(async () => {
-    const flow = await onCreateNodeEdges(
+    const flow = await onCreateNodesEdges(
       pathname.split("/").pop()!,
       JSON.stringify(nodes),
       JSON.stringify(edges),
