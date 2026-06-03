@@ -41,11 +41,12 @@ export async function GET(req: NextRequest) {
 
         console.log(databaseId)
 
+      const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'
       return NextResponse.redirect(
-        `https://localhost:3000/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
-      );
+        `${baseUrl}/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
+      )
     }
   }
 
-  return NextResponse.redirect('https://localhost:3000/connections');
+  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'}/connections`);
 }
