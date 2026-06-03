@@ -24,6 +24,7 @@ const Connections = async (props: Props) => {
     workspace_icon,
     workspace_id,
     database_id,
+    notion_error,
     app_id,
     authed_user_id,
     authed_user_token,
@@ -43,6 +44,7 @@ const Connections = async (props: Props) => {
     workspace_icon: "",
     workspace_id: "",
     database_id: "",
+    notion_error: "",
     app_id: "",
     authed_user_id: "",
     authed_user_token: "",
@@ -102,12 +104,23 @@ const Connections = async (props: Props) => {
   };
 
   const connections = await onUserConnections();
+  const notionMissingDatabase =
+    access_token &&
+    workspace_name &&
+    !database_id &&
+    notion_error === "missing_database";
 
   return (
     <div className="relative flex flex-col gap-4">
       <h1 className="sticky top-0 z-[10] flex items-center justify-between border-b bg-background/50 p-6 text-4xl backdrop-blur-lg">
         Connections
       </h1>
+      {notionMissingDatabase ? (
+        <div className="rounded-lg border border-yellow-300 bg-yellow-50 p-4 text-sm text-yellow-800">
+          Notion connected successfully, but no shared database was found. Share
+          a database with the Fuzzie-web integration and reconnect Notion.
+        </div>
+      ) : null}
       <div className="relative flex flex-col gap-4">
         <section className="flex flex-col gap-4 p-6 text-muted-foreground">
           Connect all your apps directly from here. You may need to connect

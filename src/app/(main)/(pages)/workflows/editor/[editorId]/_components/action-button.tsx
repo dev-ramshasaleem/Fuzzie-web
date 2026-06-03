@@ -48,7 +48,12 @@ const ActionButton = ({
       nodeConnection.notionNode.accessToken,
       nodeConnection.notionNode.content,
     );
-    if (response) {
+    if (response.error) {
+      toast.error(response.error);
+      return;
+    }
+    if (response.data) {
+      toast.success("Notion page created successfully.");
       nodeConnection.setNotionNode((prev: any) => ({
         ...prev,
         content: "",

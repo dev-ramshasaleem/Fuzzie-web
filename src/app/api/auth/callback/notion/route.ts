@@ -26,27 +26,23 @@ export async function GET(req: NextRequest) {
         auth: response.data.access_token,
       });
       const databasesPages = await notion.search({
-        filter: {
-          value: 'data_source',
-          property: 'object',
-        },
         sort: {
           direction: 'ascending',
           timestamp: 'last_edited_time',
         },
       });
-      const databaseId = databasesPages?.results?.length
-        ? databasesPages.results[0].id
-        : '';
+      const database = databasesPages?.results?.find(
+        (result: any) => result.object === 'database',
+      );
+      const databaseId = database?.id ?? '';
 
-        console.log(databaseId)
+      console.log(databaseId);
 
-      const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'
       return NextResponse.redirect(
-        `${baseUrl}/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
-      )
+        `https://localhost:3000/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
+      );
     }
   }
 
-  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'}/connections`);
+  return NextResponse.redirect('http://localhost:3000/connections');
 }

@@ -95,23 +95,24 @@ export const onConnections = async (
   if (editorState.editor.selectedNode.data.title == 'Notion') {
     const connection = await getNotionConnection()
     if (connection) {
+      let notionDbId = connection.databaseId
+
+      if (connection.databaseId) {
+        const dbResponse = await getNotionDatabase(
+          connection.databaseId,
+          connection.accessToken,
+        )
+        if (!dbResponse) {
+          notionDbId = ''
+        }
+      }
+
       nodeConnection.setNotionNode({
         accessToken: connection.accessToken,
-        databaseId: connection.databaseId,
+        databaseId: notionDbId,
         workspaceName: connection.workspaceName,
-        content: {
-          name: googleFile.name,
-          kind: googleFile.kind,
-          type: googleFile.mimeType,
-        },
+        content: googleFile?.name ?? 'Notion entry',
       })
-
-      if (nodeConnection.notionNode.databaseId !== '') {
-        const response = await getNotionDatabase(
-          nodeConnection.notionNode.databaseId,
-          nodeConnection.notionNode.accessToken
-        )
-      }
     }
   }
   if (editorState.editor.selectedNode.data.title == 'Slack') {
