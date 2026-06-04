@@ -38,20 +38,34 @@ const ActionButton = ({
   }, [nodeConnection.discordNode]);
 
   const onStoreNotionContent = useCallback(async () => {
-    console.log(
-      nodeConnection.notionNode.databaseId,
-      nodeConnection.notionNode.accessToken,
-      nodeConnection.notionNode.content,
-    );
+    if (!nodeConnection.notionNode.databaseId) {
+      toast.error(
+        "Notion database is not configured. Connect Notion and share a database first.",
+      );
+      return;
+    }
+
+    if (!nodeConnection.notionNode.accessToken) {
+      toast.error("Notion access token is missing. Please reconnect Notion.");
+      return;
+    }
+
+    if (!nodeConnection.notionNode.content) {
+      toast.error("Enter content before testing Notion page creation.");
+      return;
+    }
+
     const response = await onCreateNewPageInDatabase(
       nodeConnection.notionNode.databaseId,
       nodeConnection.notionNode.accessToken,
       nodeConnection.notionNode.content,
     );
+
     if (response.error) {
       toast.error(response.error);
       return;
     }
+
     if (response.data) {
       toast.success("Notion page created successfully.");
       nodeConnection.setNotionNode((prev: any) => ({

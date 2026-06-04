@@ -26,6 +26,10 @@ export async function GET(req: NextRequest) {
         auth: response.data.access_token,
       });
       const databasesPages = await notion.search({
+        filter: {
+          property: 'object',
+          value: 'database',
+        },
         sort: {
           direction: 'ascending',
           timestamp: 'last_edited_time',
@@ -35,14 +39,24 @@ export async function GET(req: NextRequest) {
         (result: any) => result.object === 'database',
       );
       const databaseId = database?.id ?? '';
+      const baseUrl = process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000';
 
       console.log(databaseId);
 
-      return NextResponse.redirect(
-        `https://localhost:3000/connections?access_token=${response.data.access_token}&workspace_name=${response.data.workspace_name}&workspace_icon=${response.data.workspace_icon}&workspace_id=${response.data.workspace_id}&database_id=${databaseId}`
-      );
+      const query = new URLSearchParams({
+        access_token: response.data.access_token,
+        workspace_name: response.data.workspace_name,
+        workspace_icon: response.data.workspace_icon,
+        workspace_id: response.data.workspace_id,
+        database_id: databaseId,
+      });
+      if (!databaseId) {
+        query.set('notion_error', 'missing_database');
+      }
+
+      return NextResponse.redirect(`${baseUrl}/connections?${query.toString()}`);
     }
   }
 
-  return NextResponse.redirect('http://localhost:3000/connections');
+  return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL ?? 'http://localhost:3000'}/connections`);
 }

@@ -1,3 +1,6 @@
+import { AccordionContent } from "@/components/ui/accordion";
+import { nodeMapper } from "@/lib/types";
+import React, { useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -7,23 +10,22 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { onContentChange } from "@/lib/editor-utilis";
-import { nodeMapper } from "@/lib/types";
-import { ConnectionProviderProps } from "@/provider/connections-provider";
-import { EditorState } from "@/provider/editor-provider";
-import { AccordionContent } from "@radix-ui/react-accordion";
-import React from "react";
-import { string } from "zod";
 import GoogleFileDetails from "./google-file-details";
 import GoogleDriveFiles from "./google-drive-file";
 import ActionButton from "./action-button";
+import { getFileMetaData } from "@/app/(main)/(pages)/connections/_actions/google-connection";
+import axios from "axios";
+import { toast } from "sonner";
+import { ConnectionProviderProps } from "@/provider/connections-provider";
+import { EditorState } from "@/provider/editor-provider";
 
 export interface Option {
   value: string;
   label: string;
   disable?: boolean;
-  /** fixed option that can't be removed */
+  /** fixed option that can't be removed. */
   fixed?: boolean;
-  /** Group the options that providing key */
+  /** Group the options by providing key. */
   [key: string]: string | boolean | undefined;
 }
 interface GroupOption {
@@ -50,16 +52,31 @@ const ContentBasedOnTitle = ({
   const { selectedNode } = newState.editor;
   const title = selectedNode.data.title;
 
+  useEffect(() => {
+    const reqGoogle = async () => {
+      const response: { data: { message: { files: any } } } =
+        await axios.get("/api/drive");
+      if (response) {
+        console.log(response.data.message);
+        toast.message("Fetched File");
+        setFile(response.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+    };
+    reqGoogle();
+  }, []);
+
   // @ts-ignore
   const nodeConnectionType: any = nodeConnection[nodeMapper[title]];
-  if (!nodeConnectionType) return <p>Not Connected</p>;
+  if (!nodeConnectionType) return <p>Not connected</p>;
 
   const isConnected =
     title === "Google Drive"
       ? !nodeConnection.isLoading
       : !!nodeConnectionType[
           `${
-            title === " Slack"
+            title === "Slack"
               ? "slackAccessToken"
               : title === "Discord"
                 ? "webhookURL"
@@ -68,7 +85,8 @@ const ContentBasedOnTitle = ({
                   : ""
           }`
         ];
-  if (!nodeConnectionType) return <p>Not Connected</p>;
+
+  if (!isConnected) return <p>Not connected</p>;
 
   return (
     <AccordionContent>
@@ -80,19 +98,17 @@ const ContentBasedOnTitle = ({
           </CardHeader>
         )}
         <div className="flex flex-col gap-3 px-6 py-3 pb-20">
-          <p>{title === "Notion" ? "Value to be sorted" : "Message"}</p>
-          {title === "Discord" || title === "Slack" ? (
-            <Input
-              type="text"
-              value={nodeConnectionType.content}
-              onChange={(event) =>
-                onContentChange(nodeConnection, title, event)
-              }
-            />
-          ) : null}
-          {JSON.stringify(file)! == "{}" && title !== "Google Drive" && (
-            <Card className="w-full ">
-              <CardContent className="px-2 py-3 ">
+          <p>{title === "Notion" ? "Values to be stored" : "Message"}</p>
+
+          <Input
+            type="text"
+            value={nodeConnectionType.content}
+            onChange={(event) => onContentChange(nodeConnection, title, event)}
+          />
+
+          {JSON.stringify(file) !== "{}" && title !== "Google Drive" && (
+            <Card className="w-full">
+              <CardContent className="px-2 py-3">
                 <div className="flex flex-col gap-4">
                   <CardDescription>Drive File</CardDescription>
                   <div className="flex flex-wrap gap-2">

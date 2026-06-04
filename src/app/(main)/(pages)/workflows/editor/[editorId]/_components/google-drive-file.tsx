@@ -15,13 +15,24 @@ const GoogleDriveFiles = (props: Props) => {
 
   const reqGoogle = async () => {
     setLoading(true);
-    const response = await axios.get("/api/drive-activity");
-    if (response) {
-      toast.message(response.data);
+    try {
+      const response = await axios.get("/api/drive-activity");
+      if (response && (response.status === 200 || response.status === 204)) {
+        toast.message(
+          typeof response.data === "string"
+            ? response.data
+            : JSON.stringify(response.data),
+        );
+        setIsListening(true);
+      } else {
+        toast.error("Failed to create Google Drive listener");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to create Google Drive listener");
+    } finally {
       setLoading(false);
-      setIsListening(true);
     }
-    setIsListening(false);
   };
 
   const onListener = async () => {

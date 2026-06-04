@@ -79,29 +79,46 @@ export const onCreateNewPageInDatabase = async (
   accessToken: string,
   content: string,
 ) => {
+  if (!databaseId || databaseId.trim() === "") {
+    return {
+      error:
+        "Notion database ID is missing. Reconnect Notion and share a database before creating a page.",
+    };
+  }
+
+  if (!accessToken || accessToken.trim() === "") {
+    return {
+      error: "Notion access token is missing. Please reconnect Notion.",
+    };
+  }
+
   const notion = new Client({
     auth: accessToken,
   });
 
-  console.log(databaseId);
-  const response = await notion.pages.create({
-    parent: {
-      type: "database_id",
-      database_id: databaseId,
-    },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content,
-            },
-          },
-        ],
+  try {
+    const response = await notion.pages.create({
+      parent: {
+        type: "database_id",
+        database_id: databaseId,
       },
-    },
-  });
-  if (response) {
-    return response;
+      properties: {
+        Name: {
+          title: [
+            {
+              text: {
+                content: "Testing",
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    return { data: response };
+  } catch (error: any) {
+    return {
+      error: error?.message ?? "Failed to create Notion page.",
+    };
   }
 };

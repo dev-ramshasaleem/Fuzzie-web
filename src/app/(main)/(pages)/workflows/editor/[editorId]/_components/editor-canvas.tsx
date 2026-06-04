@@ -30,6 +30,7 @@ import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
 import FlowInstance from "./flow-instance";
 import EditorCanvasSidebar from "./editor-canvas-sidebar";
+import { onGetNodesEdges } from "../../../_actions/workflow-connections";
 
 type Props = {};
 const initialNodes: EditorNodeType[] = [];
@@ -163,6 +164,20 @@ const EditorCanvas = (props: Props) => {
     [],
   );
 
+  const onGetWorkFlow = async () => {
+    setIsWorkFlowLoading(true);
+    const response = await onGetNodesEdges(pathname.split("/").pop()!);
+    if (response) {
+      setEdges(JSON.parse(response.edges!));
+      setNodes(JSON.parse(response.nodes!));
+      setIsWorkFlowLoading(false);
+    }
+    setIsWorkFlowLoading(false);
+  };
+  useEffect(() => {
+    onGetWorkFlow();
+  }, []);
+
   return (
     <ResizablePanelGroup direction="horizontal" className="">
       <ResizablePanel defaultSize={70}>
@@ -205,7 +220,10 @@ const EditorCanvas = (props: Props) => {
                 onClick={handleClickCanvas}
                 nodeTypes={nodeTypes}
               >
-                <Controls position="top-left" className="text-black dark:text-white" />
+                <Controls
+                  position="top-left"
+                  className="text-black dark:text-white"
+                />
                 <MiniMap
                   position="bottom-left"
                   className="!bg-background"
