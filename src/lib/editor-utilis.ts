@@ -42,6 +42,8 @@ export const onContentChange = (
     onSlackContent(nodeConnection, event)
   } else if (nodeType === 'Discord') {
     onDiscordContent(nodeConnection, event)
+  } else if (nodeType === 'Notion') {
+    onNotionContent(nodeConnection, event)
   } 
 }
 export const onAddTemplateSlack = (

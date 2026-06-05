@@ -2,15 +2,19 @@ import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import {
+  ClerkProvider,
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
 import ModalProvider from "@/provider/modal-provider";
+import { BillingProvider } from "@/provider/billing-provider";
 
 const dmSans = DM_Sans({
-
   subsets: ["latin"],
 });
-
-
 
 export const metadata: Metadata = {
   title: "Fuzzie",
@@ -23,10 +27,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-
-
     <ClerkProvider
-      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+      publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}
+    >
       <html lang="en" suppressHydrationWarning>
         <body className={`${dmSans.className} h-full antialiased`}>
           <ThemeProvider
@@ -35,15 +38,12 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ModalProvider>
-{children}
-            </ModalProvider>
-            
+            <BillingProvider>
+              <ModalProvider>{children}</ModalProvider>
+            </BillingProvider>
           </ThemeProvider>
         </body>
       </html>
-
     </ClerkProvider>
-
   );
 }
