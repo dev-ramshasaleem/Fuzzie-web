@@ -19,7 +19,7 @@ Fuzzie is an AI-powered workflow automation platform that allows users to connec
 ---
 
 ## 🛠️ Tech Stack
----
+
 ## Frontend
 - Next.js 15
 - React
@@ -53,23 +53,17 @@ Fuzzie is an AI-powered workflow automation platform that allows users to connec
 Create a .env file in the root directory and add the following variables:
 
 DATABASE_URL=
-
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
-
 GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
-
 NOTION_CLIENT_ID=
 NOTION_CLIENT_SECRET=
-
 DISCORD_CLIENT_ID=
 DISCORD_CLIENT_SECRET=
 DISCORD_PUBLIC_KEY=
-
 SLACK_CLIENT_ID=
 SLACK_CLIENT_SECRET=
-
 NGROK_URL=
 
 ---
