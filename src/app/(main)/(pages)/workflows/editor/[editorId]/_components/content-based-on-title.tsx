@@ -59,7 +59,7 @@ const ContentBasedOnTitle = ({
       if (response) {
         console.log(response.data.message);
         toast.message("Fetched File");
-        setFile(response.data.message);
+        setFile(response.data.messag);
       } else {
         toast.error("Something went wrong");
       }
