@@ -97,7 +97,7 @@ npx prisma migrate dev
 ## 💻 Installation & Setup
 ## Clone the repository:
 ```
-git clone https://github.com/your-username/fuzzie.git
+git clone https://github.com/dev-ramshasaleem/Fuzzie-web/.git
 ```
 ## Navigate to the project folder:
 ```
